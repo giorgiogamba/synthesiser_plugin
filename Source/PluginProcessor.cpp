@@ -9,6 +9,9 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include "SynthSound.h"
+#include "SynthVoice.h"
+
 //==============================================================================
 Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -22,10 +25,14 @@ Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
                        )
 #endif
 {
+    synth.addSound(new SynthSound());
+    synth.addVoice(new SynthVoice());
+    
 }
 
 Synthesiser_pluginAudioProcessor::~Synthesiser_pluginAudioProcessor()
 {
+    // No need to delete SynthSound and SynthVoice from Synth class since automatically deleted by owner
 }
 
 //==============================================================================
@@ -103,6 +110,8 @@ void Synthesiser_pluginAudioProcessor::prepareToPlay (double sampleRate, int sam
     
     osc.setFrequency(220.f);
     gain.setGainLinear(0.01f);
+    
+    synth.setCurrentPlaybackSampleRate(sampleRate);
 }
 
 void Synthesiser_pluginAudioProcessor::releaseResources()
@@ -152,6 +161,17 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
     osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    
+    for (int i = 0; i < synth.getNumVoices(); ++i)
+    {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i)))
+        {
+            // Checks parameters from value tree
+        }
+    }
+    
+    // Renders synth's voices
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
 //==============================================================================

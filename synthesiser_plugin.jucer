@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="rMX03F" name="synthesiser_plugin" projectType="audioplug"
-              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
+              companyWebsite="giorgiogamba.com" companyEmail="giorgiogamba97@gmail.com"
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginManufacturer="giorgiogamba">
   <MAINGROUP id="aI8xFd" name="synthesiser_plugin">
     <GROUP id="{56D08421-387B-F3E1-9534-BC06BFE4DB01}" name="Source">
+      <FILE id="W19gdZ" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <FILE id="ykQV0q" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
+      <FILE id="gXY5QW" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="N2IZz3" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="F7L91L" name="PluginProcessor.h" compile="0" resource="0"

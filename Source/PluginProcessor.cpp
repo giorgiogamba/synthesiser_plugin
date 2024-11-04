@@ -9,6 +9,9 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include "SynthSound.h"
+#include "SynthVoice.h"
+
 //==============================================================================
 Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -22,10 +25,14 @@ Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
                        )
 #endif
 {
+    synth.addSound(new SynthSound());
+    synth.addVoice(new SynthVoice());
+    
 }
 
 Synthesiser_pluginAudioProcessor::~Synthesiser_pluginAudioProcessor()
 {
+    // No need to delete SynthSound and SynthVoice from Synth class since automatically deleted by owner
 }
 
 //==============================================================================
@@ -93,16 +100,16 @@ void Synthesiser_pluginAudioProcessor::changeProgramName (int index, const juce:
 //==============================================================================
 void Synthesiser_pluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = getTotalNumOutputChannels();
+    synth.setCurrentPlaybackSampleRate(sampleRate);
     
-    osc.prepare(spec);
-    gain.prepare(spec);
-    
-    osc.setFrequency(220.f);
-    gain.setGainLinear(0.01f);
+    for (int i = 0; i < synth.getNumVoices(); i ++)
+    {
+        SynthVoice* voice = dynamic_cast<SynthVoice*>(synth.getVoice(i));
+        if (!voice)
+            continue;
+        
+        voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+    }
 }
 
 void Synthesiser_pluginAudioProcessor::releaseResources()
@@ -148,10 +155,16 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
         buffer.clear (i, 0, buffer.getNumSamples());
     }
     
-    juce::dsp::AudioBlock<float> audioBlock(buffer);
-    osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    for (int i = 0; i < synth.getNumVoices(); ++i)
+    {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i)))
+        {
+            // Checks parameters from value tree
+        }
+    }
     
-    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    // Renders synth's voices
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
 //==============================================================================

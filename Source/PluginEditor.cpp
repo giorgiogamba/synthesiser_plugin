@@ -14,6 +14,13 @@ Synthesiser_pluginAudioProcessorEditor::Synthesiser_pluginAudioProcessorEditor (
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     setSize (400, 300);
+    
+    adsrFilterAttackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "ATTACK", adsrFilterAttackSlider);
+    adsrFilterDecaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "DECAY", adsrFilterDecaySlider);
+    adsrFilterSustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "SUSTAIN", adsrFilterSustainSlider);
+    adsrFilterReleaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "RELEASE", adsrFilterReleaseSlider);
+    
+    oscillatorWaveformsComboBoxAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getParams(), "OSC", oscillatorWaveformsComboBox);
 }
 
 Synthesiser_pluginAudioProcessorEditor::~Synthesiser_pluginAudioProcessorEditor()

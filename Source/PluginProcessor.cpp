@@ -28,6 +28,7 @@ Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
     synth.addSound(new SynthSound());
     synth.addVoice(new SynthVoice());
     
+    params = createParameters();
 }
 
 Synthesiser_pluginAudioProcessor::~Synthesiser_pluginAudioProcessor()
@@ -192,6 +193,21 @@ void Synthesiser_pluginAudioProcessor::setStateInformation (const void* data, in
     // whose contents will have been created by the getStateInformation() call.
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout Synthesiser_pluginAudioProcessor::createParameters()
+{
+    // Combo box for oscillator waveform switch
+    // ADSR Parameters
+    
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters;
+    parameters.push_back(std::make_unique<juce::AudioParameterChoice>("OSC", "Oscillator", juce::StringArray{"Sine", "Saw", "Square"}, 0));
+
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange<float>{0.1f, 1.0f}, 0.1f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange<float>{0.1f, 1.0f}, 0.1f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange<float>{0.1f, 1.0f}, 0.1f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange<float>{0.1f, 3.0f}, 0.1f));
+    
+    return {parameters.begin(), parameters.end()};
+}
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()

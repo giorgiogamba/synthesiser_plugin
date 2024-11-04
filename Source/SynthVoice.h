@@ -19,7 +19,11 @@ class SynthVoice : public juce::SynthesiserVoice
     
 public:
     
+    SynthVoice();
+    
     bool canPlaySound(juce::SynthesiserSound* sound) override;
+    
+    void prepareToPlay (double sampleRate, int samplesPerBlock, int outputChannels);
     
     void startNote(int midiNodeNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) override;
     void stopNote(float velocity, bool allowTailOff) override;

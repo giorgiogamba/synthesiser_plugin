@@ -101,6 +101,15 @@ void Synthesiser_pluginAudioProcessor::changeProgramName (int index, const juce:
 void Synthesiser_pluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     synth.setCurrentPlaybackSampleRate(sampleRate);
+    
+    for (int i = 0; i < synth.getNumVoices(); i ++)
+    {
+        SynthVoice* voice = dynamic_cast<SynthVoice*>(synth.getVoice(i));
+        if (!voice)
+            continue;
+        
+        voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+    }
 }
 
 void Synthesiser_pluginAudioProcessor::releaseResources()

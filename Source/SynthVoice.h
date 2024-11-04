@@ -44,6 +44,9 @@ private:
     
     juce::dsp::Gain<float> gain;
     
+    juce::ADSR adsrFilter;
+    juce::ADSR::Parameters adsrFilterParameters;
+    
     bool bIsPrepared;
     
     

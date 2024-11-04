@@ -31,7 +31,16 @@ public:
     
 private:
     
+    juce::dsp::Oscillator<float> osc {[](float x){ return std::sin(x); }};
     
+    // Kinds of wave equations. Replace them inside the lambda function to generate different sounds
+    // Sinewave: std::sin(x);
+    // Sawwave: x / MathConstants<float>::pi;
+    // Square wave: x < 0.f ? -1.f : 1.f;
+    
+    juce::dsp::Gain<float> gain;
+    
+    bool bIsPrepared;
     
     
 };

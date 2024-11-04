@@ -100,17 +100,6 @@ void Synthesiser_pluginAudioProcessor::changeProgramName (int index, const juce:
 //==============================================================================
 void Synthesiser_pluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = getTotalNumOutputChannels();
-    
-    osc.prepare(spec);
-    gain.prepare(spec);
-    
-    osc.setFrequency(220.f);
-    gain.setGainLinear(0.01f);
-    
     synth.setCurrentPlaybackSampleRate(sampleRate);
 }
 
@@ -156,11 +145,6 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
     {
         buffer.clear (i, 0, buffer.getNumSamples());
     }
-    
-    juce::dsp::AudioBlock<float> audioBlock(buffer);
-    osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
-    
-    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     
     for (int i = 0; i < synth.getNumVoices(); ++i)
     {

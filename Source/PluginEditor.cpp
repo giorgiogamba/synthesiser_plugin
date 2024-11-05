@@ -15,12 +15,12 @@ Synthesiser_pluginAudioProcessorEditor::Synthesiser_pluginAudioProcessorEditor (
 {
     setSize (400, 300);
     
-    adsrFilterAttackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "ATTACK", adsrFilterAttackSlider);
-    adsrFilterDecaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "DECAY", adsrFilterDecaySlider);
-    adsrFilterSustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "SUSTAIN", adsrFilterSustainSlider);
-    adsrFilterReleaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getParams(), "RELEASE", adsrFilterReleaseSlider);
+    adsrFilterAttackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAudioProcessorValueTreeState(), "ATTACK", adsrFilterAttackSlider);
+    adsrFilterDecaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAudioProcessorValueTreeState(), "DECAY", adsrFilterDecaySlider);
+    adsrFilterSustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAudioProcessorValueTreeState(), "SUSTAIN", adsrFilterSustainSlider);
+    adsrFilterReleaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAudioProcessorValueTreeState(), "RELEASE", adsrFilterReleaseSlider);
     
-    oscillatorWaveformsComboBoxAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getParams(), "OSC", oscillatorWaveformsComboBox);
+    oscillatorWaveformsComboBoxAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getAudioProcessorValueTreeState(), "OSC", oscillatorWaveformsComboBox);
 }
 
 Synthesiser_pluginAudioProcessorEditor::~Synthesiser_pluginAudioProcessorEditor()

@@ -22,13 +22,11 @@ Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), audioProcessorValueTreeState(*this, nullptr, "Parameters", createParameters())
 #endif
 {
     synth.addSound(new SynthSound());
     synth.addVoice(new SynthVoice());
-    
-    params = createParameters();
 }
 
 Synthesiser_pluginAudioProcessor::~Synthesiser_pluginAudioProcessor()

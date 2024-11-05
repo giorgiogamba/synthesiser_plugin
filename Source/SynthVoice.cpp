@@ -35,6 +35,12 @@ void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outp
     
     adsrFilter.setSampleRate(sampleRate);
     
+    adsrFilterParameters.attack = 0.1f;
+    adsrFilterParameters.decay = 0.1f;
+    adsrFilterParameters.sustain = 1.0f;
+    adsrFilterParameters.release = 1.0f;
+    adsrFilter.setParameters(adsrFilterParameters);
+    
     bIsPrepared = true;
 }
 

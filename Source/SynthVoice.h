@@ -44,6 +44,8 @@ private:
     
     juce::dsp::Gain<float> gain;
     
+    juce::AudioBuffer<float> synthBuffer;
+    
     juce::ADSR adsrFilter;
     juce::ADSR::Parameters adsrFilterParameters;
     

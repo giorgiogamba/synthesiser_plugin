@@ -76,10 +76,31 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
         return;
     }
     
-    juce::dsp::AudioBlock<float> audioBlock(outputBuffer); // outputBuffer's alias
+    if (!isVoiceActive())
+    {
+        printf("No voice active. Returning");
+        return;
+    }
+    
+    synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
+    synthBuffer.clear();
+    
+    juce::dsp::AudioBlock<float> audioBlock(synthBuffer); // outputBuffer's alias
     osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     
-    adsrFilter.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+    // Everything that needs to be applied to synthBuffer is in [0, getNumSamples],
+    // while everything that needs to be applied to outputBuffer is in [startSample, numSamples]
+    
+    adsrFilter.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
+    
+    // This permits to easly add info to the buffer in every moment of the sound
+    for (int i = 0; i < outputBuffer.getNumChannels(); i ++)
+    {
+        outputBuffer.addFrom(i, startSample, synthBuffer, i, 0, numSamples);
+        
+        if (!adsrFilter.isActive())
+            clearCurrentNote();
+    }
 }

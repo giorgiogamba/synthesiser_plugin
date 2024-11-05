@@ -53,6 +53,9 @@ void SynthVoice::startNote(int midiNodeNumber, float velocity, juce::Synthesiser
 void SynthVoice::stopNote(float velocity, bool allowTailOff)
 {
     adsrFilter.noteOff();
+    
+    if (!allowTailOff || !adsrFilter.isActive())
+        clearCurrentNote();
 }
 
 void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)

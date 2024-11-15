@@ -21,10 +21,10 @@ Synthesiser_pluginAudioProcessorEditor::~Synthesiser_pluginAudioProcessorEditor(
 
 void Synthesiser_pluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.fillAll (juce::Colours::black);
 }
 
 void Synthesiser_pluginAudioProcessorEditor::resized()
 {
-    adsrComponent.setBounds(getLocalBounds());
+    adsrComponent.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
 }

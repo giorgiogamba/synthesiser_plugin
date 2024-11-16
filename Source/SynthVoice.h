@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "SynthSound.h"
+#include "Data/ADSRData.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -33,7 +34,7 @@ public:
 
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
-    void updateADSR(const float attack, const float decay, const float sustain, const float release);
+    void update(const float attack, const float decay, const float sustain, const float release);
     
 private:
     
@@ -48,7 +49,7 @@ private:
     
     juce::AudioBuffer<float> synthBuffer;
     
-    juce::ADSR adsrFilter;
+    ADSRData adsrFilter;
     juce::ADSR::Parameters adsrFilterParameters;
     
     bool bIsPrepared;

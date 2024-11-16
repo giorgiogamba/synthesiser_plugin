@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+build/
+.DS_Store
+xcuserdata
+synthesiser_plugin/project.pbxproj
+project.xcworkspace

@@ -105,10 +105,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     }
 }
 
-void SynthVoice::updateADSR(const float attack, const float decay, const float sustain, const float release)
+void SynthVoice::update(const float attack, const float decay, const float sustain, const float release)
 {
-    /*adsrFilter.attackRate = attack;
-    adsrFilter.decayRate = decay;
-    adsrFilter.su= sustain;
-    adsrFilter.releaseRate = release;*/
+    adsrFilter.update(attack, decay, sustain, release);
 }

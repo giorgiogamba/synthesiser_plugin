@@ -13,6 +13,8 @@
 #include <JuceHeader.h>
 
 #include "SynthSound.h"
+#include "Data/ADSRData.h"
+#include "Data/OscillatorData.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -33,23 +35,20 @@ public:
 
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
     
+    void update(const float attack, const float decay, const float sustain, const float release);
+    
+    OscillatorData& getOscillator() { return oscillator; }
+    
 private:
     
-    juce::dsp::Oscillator<float> osc {[](float x){ return std::sin(x); }};
-    
-    // Kinds of wave equations. Replace them inside the lambda function to generate different sounds
-    // Sinewave: std::sin(x);
-    // Sawwave: x / MathConstants<float>::pi;
-    // Square wave: x < 0.f ? -1.f : 1.f;
+    OscillatorData oscillator;
     
     juce::dsp::Gain<float> gain;
     
-    juce::ADSR adsrFilter;
+    juce::AudioBuffer<float> synthBuffer;
+    
+    ADSRData adsrFilter;
     juce::ADSR::Parameters adsrFilterParameters;
     
     bool bIsPrepared;
-    
-    
 };
-
-

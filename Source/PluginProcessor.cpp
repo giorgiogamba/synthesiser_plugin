@@ -22,12 +22,11 @@ Synthesiser_pluginAudioProcessor::Synthesiser_pluginAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), audioProcessorValueTreeState(*this, nullptr, "Parameters", createParameters())
 #endif
 {
     synth.addSound(new SynthSound());
     synth.addVoice(new SynthVoice());
-    
 }
 
 Synthesiser_pluginAudioProcessor::~Synthesiser_pluginAudioProcessor()
@@ -157,9 +156,17 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
     
     for (int i = 0; i < synth.getNumVoices(); ++i)
     {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i)))
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
         {
-            // Checks parameters from value tree
+            const float attack = *audioProcessorValueTreeState.getRawParameterValue("ATTACK");
+            const float decay = *audioProcessorValueTreeState.getRawParameterValue("DECAY");
+            const float sustain = *audioProcessorValueTreeState.getRawParameterValue("SUSTAIN");
+            const float release = *audioProcessorValueTreeState.getRawParameterValue("RELEASE");
+            
+            auto& oscillatorWaveType = * audioProcessorValueTreeState.getRawParameterValue("OSC");
+            
+            voice->update(attack, decay, sustain, release);
+            voice->getOscillator().setWavetype(oscillatorWaveType);
         }
     }
     
@@ -192,6 +199,21 @@ void Synthesiser_pluginAudioProcessor::setStateInformation (const void* data, in
     // whose contents will have been created by the getStateInformation() call.
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout Synthesiser_pluginAudioProcessor::createParameters()
+{
+    // Combo box for oscillator waveform switch
+    // ADSR Parameters
+    
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters;
+    parameters.push_back(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID("OSC", 1), "Oscillator", juce::StringArray{"Sine", "Saw", "Square"}, 0));
+
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("ATTACK", 1), "Attack", juce::NormalisableRange<float>{0.1f, 1.0f}, 0.1f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("DECAY", 1), "Decay", juce::NormalisableRange<float>{0.1f, 1.0f}, 0.1f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("SUSTAIN", 1), "Sustain", juce::NormalisableRange<float>{0.1f, 1.0f}, 0.1f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("RELEASE", 1), "Release", juce::NormalisableRange<float>{0.1f, 3.0f}, 0.1f));
+    
+    return {parameters.begin(), parameters.end()};
+}
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()

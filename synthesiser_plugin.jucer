@@ -7,6 +7,23 @@
               pluginManufacturer="giorgiogamba">
   <MAINGROUP id="aI8xFd" name="synthesiser_plugin">
     <GROUP id="{56D08421-387B-F3E1-9534-BC06BFE4DB01}" name="Source">
+      <GROUP id="{DEFA626D-730C-CE70-4552-F88126D06546}" name="UI">
+        <FILE id="Fq32XT" name="ADSRComponent.cpp" compile="1" resource="0"
+              file="Source/UI/ADSRComponent.cpp"/>
+        <FILE id="XR5kom" name="ADSRComponent.h" compile="0" resource="0" file="Source/UI/ADSRComponent.h"/>
+        <FILE id="AgbzWe" name="OscillatorComponent.cpp" compile="1" resource="0"
+              file="Source/UI/OscillatorComponent.cpp"/>
+        <FILE id="T2lGEx" name="OscillatorComponent.h" compile="0" resource="0"
+              file="Source/UI/OscillatorComponent.h"/>
+      </GROUP>
+      <GROUP id="{1D3382CC-77AA-83A2-5E5A-7E9E6ECFD766}" name="Data">
+        <FILE id="Yd6TuH" name="ADSRData.cpp" compile="1" resource="0" file="Source/Data/ADSRData.cpp"/>
+        <FILE id="ldi0u0" name="ADSRData.h" compile="0" resource="0" file="Source/Data/ADSRData.h"/>
+        <FILE id="M23HWX" name="OscillatorData.cpp" compile="1" resource="0"
+              file="Source/Data/OscillatorData.cpp"/>
+        <FILE id="WcnVNQ" name="OscillatorData.h" compile="0" resource="0"
+              file="Source/Data/OscillatorData.h"/>
+      </GROUP>
       <FILE id="W19gdZ" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="ykQV0q" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
       <FILE id="gXY5QW" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>

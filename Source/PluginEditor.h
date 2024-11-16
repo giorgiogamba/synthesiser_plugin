@@ -10,7 +10,9 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+
 #include "UI/ADSRComponent.h"
+#include "UI/OscillatorComponent.h"
 
 //==============================================================================
 /**
@@ -26,14 +28,12 @@ public:
     void resized() override;
 
 private:
-    
-    juce::ComboBox oscillatorWaveformsComboBox;
-    
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscillatorWaveformsComboBoxAttachment;
-    
+       
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     Synthesiser_pluginAudioProcessor& audioProcessor;
+    
+    OscillatorComponent oscillatorComponent;
     
     ADSRComponent adsrComponent;
 

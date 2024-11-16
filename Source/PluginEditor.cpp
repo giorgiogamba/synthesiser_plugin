@@ -6,12 +6,11 @@
 Synthesiser_pluginAudioProcessorEditor::Synthesiser_pluginAudioProcessorEditor (Synthesiser_pluginAudioProcessor& p)
     : AudioProcessorEditor (&p)
     , audioProcessor (p)
+    , oscillatorComponent(audioProcessor.getAudioProcessorValueTreeState(), "OSC")
     , adsrComponent(audioProcessor.getAudioProcessorValueTreeState())
 {
     setSize (400, 300);
-    
-    oscillatorWaveformsComboBoxAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getAudioProcessorValueTreeState(), "OSC", oscillatorWaveformsComboBox);
-    
+    addAndMakeVisible(oscillatorComponent);
     addAndMakeVisible(adsrComponent);
 }
 
@@ -26,5 +25,6 @@ void Synthesiser_pluginAudioProcessorEditor::paint (juce::Graphics& g)
 
 void Synthesiser_pluginAudioProcessorEditor::resized()
 {
+    oscillatorComponent.setBounds(10, 10, 100, 30);
     adsrComponent.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
 }

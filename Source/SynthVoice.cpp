@@ -27,10 +27,11 @@ void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outp
     spec.sampleRate = sampleRate;
     spec.numChannels = outputChannels;
     
-    osc.prepare(spec);
+    oscillator.prepareToPlay(spec);
+    
     gain.prepare(spec);
     
-    osc.setFrequency(220.f);
+    oscillator.setWaveFrequency(220.f);
     gain.setGainLinear(0.01f);
     
     adsrFilter.setSampleRate(sampleRate);
@@ -46,7 +47,7 @@ void SynthVoice::prepareToPlay (double sampleRate, int samplesPerBlock, int outp
 
 void SynthVoice::startNote(int midiNodeNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    osc.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNodeNumber));
+    oscillator.setWaveFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNodeNumber));
     adsrFilter.noteOn();
 }
 
@@ -86,7 +87,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     synthBuffer.clear();
     
     juce::dsp::AudioBlock<float> audioBlock(synthBuffer); // outputBuffer's alias
-    osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    oscillator.getNextAudioBlock(audioBlock);
     
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     

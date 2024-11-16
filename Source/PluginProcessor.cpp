@@ -162,7 +162,11 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
             const float decay = *audioProcessorValueTreeState.getRawParameterValue("DECAY");
             const float sustain = *audioProcessorValueTreeState.getRawParameterValue("SUSTAIN");
             const float release = *audioProcessorValueTreeState.getRawParameterValue("RELEASE");
+            
+            auto& oscillatorWaveType = * audioProcessorValueTreeState.getRawParameterValue("OSC");
+            
             voice->update(attack, decay, sustain, release);
+            voice->getOscillator().setWavetype(oscillatorWaveType);
         }
     }
     

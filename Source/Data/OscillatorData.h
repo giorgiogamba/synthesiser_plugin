@@ -24,8 +24,17 @@ public:
     
     void setWaveFrequency(const int midiNoteNumber);
     
+    void setFrequencyModulationParams(const float frequency, const float amplitude);
+    
 private:
     
     juce::dsp::Oscillator<float> osc {[](float x){ return std::sin(x); }};
+    
+    juce::dsp::Oscillator<float> fmOsc {[](float x){ return std::sin(x); }};
+    
+    float fmMod{0.f};
+    float fmAmp{0.f};
+    int lastMidiNote;
+    
     
 };

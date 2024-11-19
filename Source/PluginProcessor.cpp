@@ -165,8 +165,12 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
             
             auto& oscillatorWaveType = * audioProcessorValueTreeState.getRawParameterValue("OSC");
             
+            auto& fmAmplitude = *audioProcessorValueTreeState.getRawParameterValue("FMDEPTH");
+            auto& fmFrequency = *audioProcessorValueTreeState.getRawParameterValue("FMFREQ");
+            
             voice->update(attack, decay, sustain, release);
             voice->getOscillator().setWavetype(oscillatorWaveType);
+            voice->getOscillator().setFrequencyModulationParams(fmFrequency, fmAmplitude);
         }
     }
     
@@ -206,6 +210,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout Synthesiser_pluginAudioProce
     
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters;
     parameters.push_back(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID("OSC", 1), "Oscillator", juce::StringArray{"Sine", "Saw", "Square"}, 0));
+    
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("FMFREQ", 1), "FM Frequency", juce::NormalisableRange<float>{0.f, 1000.f}, 5.f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("FMAMP", 1), "FM Amplitude", juce::NormalisableRange<float>{0.f, 1000.f}, 500.f));
 
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("ATTACK", 1), "Attack", juce::NormalisableRange<float>{0.1f, 1.f}, 0.1f));
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("DECAY", 1), "Decay", juce::NormalisableRange<float>{0.1f, 1.f}, 0.1f));

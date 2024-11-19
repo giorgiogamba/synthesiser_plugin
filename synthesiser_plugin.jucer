@@ -4,7 +4,7 @@
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
               companyWebsite="giorgiogamba.com" companyEmail="giorgiogamba97@gmail.com"
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
-              pluginManufacturer="giorgiogamba">
+              pluginManufacturer="giorgiogamba" pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3">
   <MAINGROUP id="aI8xFd" name="synthesiser_plugin">
     <GROUP id="{56D08421-387B-F3E1-9534-BC06BFE4DB01}" name="Source">
       <GROUP id="{DEFA626D-730C-CE70-4552-F88126D06546}" name="UI">

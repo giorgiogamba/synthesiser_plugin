@@ -18,7 +18,12 @@
 class OscillatorComponent  : public juce::Component
 {
 public:
-    OscillatorComponent(juce::AudioProcessorValueTreeState& apvts, juce::String waveTypeSelectorID);
+    OscillatorComponent
+        ( juce::AudioProcessorValueTreeState& apvts
+        , juce::String waveTypeSelectorID
+        , juce::String fmFrequencyID
+        , juce::String fmDepthID );
+    
     ~OscillatorComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -27,6 +32,15 @@ public:
 private:
     
     juce::ComboBox oscillatorWaveTypeSelector;
+    
+    juce::Slider fmFrequencySlider;
+    juce::Slider fmDepthSlider;
+    
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fmFrequecySliderAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fmDepthSliderAttachment;
+    
+    juce::Label fmFrequencySliderLabel {"FM Frequency"};
+    juce::Label fmDepthSliderLabel {"FM Depth"};
     
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscillatorWaveTypeSelectorAttachment;
     

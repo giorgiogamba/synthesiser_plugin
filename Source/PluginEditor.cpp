@@ -6,7 +6,7 @@
 Synthesiser_pluginAudioProcessorEditor::Synthesiser_pluginAudioProcessorEditor (Synthesiser_pluginAudioProcessor& p)
     : AudioProcessorEditor (&p)
     , audioProcessor (p)
-    , oscillatorComponent(audioProcessor.getAudioProcessorValueTreeState(), "OSC")
+    , oscillatorComponent(audioProcessor.getAudioProcessorValueTreeState(), "OSC", "FMFREQ", "FMAMP")
     , adsrComponent(audioProcessor.getAudioProcessorValueTreeState())
 {
     setSize (400, 300);

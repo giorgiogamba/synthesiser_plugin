@@ -27,13 +27,16 @@ OscillatorComponent::OscillatorComponent
     oscillatorWaveTypeSelector.addItemList(wavetypeChoices, 1);
     addAndMakeVisible(oscillatorWaveTypeSelector);
     
+    fmFrequecySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
+        ( apvts
+         , fmFrequencyID
+         , fmFrequencySlider );
+    
     fmFrequencySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     fmFrequencySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(fmFrequencySlider);
     
-    fmFrequecySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(apvts, fmFrequencyID, fmFrequencySlider);
-    
-    fmDepthSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    //sfmDepthSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     
     fmFrequencySliderLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
     fmFrequencySliderLabel.setJustificationType(juce::Justification::centred);

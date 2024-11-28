@@ -54,5 +54,5 @@ void OscillatorComponent::resized()
 {
     oscillatorWaveTypeSelector.setBounds(0, 0, 90, 20);
     fmFrequencySlider.setBounds(0, 80, 100, 90);
-    fmFrequencySliderLabel.setBounds(fmFrequencySlider.getX(),  fmFrequencySlider.getY() - 20, fmFrequencySlider,getWidth(), 20);;
+    fmFrequencySliderLabel.setBounds(fmFrequencySlider.getX(),  fmFrequencySlider.getY() - 20, fmFrequencySlider.getWidth(), 20);
 }

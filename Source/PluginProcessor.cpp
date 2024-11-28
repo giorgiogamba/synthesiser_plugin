@@ -165,7 +165,7 @@ void Synthesiser_pluginAudioProcessor::processBlock (juce::AudioBuffer<float>& b
             
             auto& oscillatorWaveType = * audioProcessorValueTreeState.getRawParameterValue("OSC");
             
-            auto& fmAmplitude = *audioProcessorValueTreeState.getRawParameterValue("FMDEPTH");
+            auto& fmAmplitude = *audioProcessorValueTreeState.getRawParameterValue("FMAMP");
             auto& fmFrequency = *audioProcessorValueTreeState.getRawParameterValue("FMFREQ");
             
             voice->update(attack, decay, sustain, release);
